@@ -5,12 +5,12 @@ body {
 }
 
 .content {
-	width: 70%;
-	height: 100%;
+	width: 80%;
+	max-height: 100%;
 	margin-top: 100px;
 	margin: auto;
 	padding-top: 25px;
-	padding-left: 75px;
+	padding-left: 15px;
 	background-color: #FFF;
 	border: 1px solid #eee;
 	border: 1px solid rgba(0, 0, 0, 0.3);
@@ -78,7 +78,7 @@ body {
 	width: 50px;
 }
 
-.status {
+.li-item .label {
 	float: right;
 	margin-top: 8px;
 	margin-right: 8px;
@@ -92,11 +92,13 @@ body {
 }
 
 .detail-box {
-	margin-left: 25px;
-	height: 270px;
+	display: inline-block;
+	width: 100%;
+	border-top: 1px solid #DDD;
+	padding-top: 20px;
 }
 
-.left-dotted {
+.left-dashed {
 	border-left: 1px;
 	border-left-style: dashed;
 	border-color: #DDD;
@@ -110,6 +112,20 @@ body {
 	float: left;
 }
 
+.fleft {
+	float: left;
+}
+
+.fields {
+	height: 450px;
+	padding-left: 30px;
+	padding-right: 30px;
+}
+
+.fields:hover {
+	background-color: #f9f9f9;
+}
+
 .details {
 	float: left;
 }
@@ -121,4 +137,12 @@ body {
 .details-overview {
 	float: left;
 	margin-left: 5px;
+}
+
+.alert-message {
+	width: 450px;
+}
+
+.btn#delete {
+	float: right;
 }

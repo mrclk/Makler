@@ -1,4 +1,16 @@
+<?php
+require_once 'rb.php';
+R::setup('mysql:host=localhost;dbname=makler','root','');
+
+if (isset($_GET['id'])) {
+	$building = R::load('building', $_GET['id']);
+	if ($building->id != 0) {
+		
+	}
+}
+?>
 <!DOCTYPE html>
+
 <html>
 <head>
 <meta charset="utf-8">
@@ -9,36 +21,36 @@
 </head>
 <body>
 <div class="content">
-<h1>Neues Objekt</h1>
+<h1>Objekt bearbeiten <small>#<?php echo $building->id;?></small></h1>
 <form action="" class="form-stacked" method="post">
 <div style="display: inline-block;">
 <fieldset class="fields fleft">
 <h3>Eigenschaften</h3>
 <div class="clearfix"><label for="rooms">Zimmer</label>
 <div class="input"><input class="span2" name="rooms" maxlength="3"
-	type="text"></div>
+	type="text" value="<?php echo $building->rooms;?>"></div>
 </div>
 <div class="clearfix"><label for="floors">Etagen</label>
 <div class="input"><input class="span2" name="floors" maxlength="3"
-	type="text"></div>
+	type="text" value="<?php echo $building->floors;?>"></div>
 </div>
 <div class="clearfix"><label for="qm">Fl&auml;che (m&sup2;)</label>
 <div class="input"><input class="span2" name="qm" maxlength="5"
-	type="text"></div>
+	type="text" value="<?php echo $building->qm;?>"></div>
 </div>
 <div class="clearfix"><label for="price">Preis (&euro;)</label>
 <div class="input"><input class="span2" name="price" maxlength="9"
-	type="text"></div>
+	type="text" value="<?php echo $building->price;?>"></div>
 </div>
 <div class="clearfix"><label for="minprice">Min. Preis (&euro;)</label>
 <div class="input"><input class="span2" name="minprice" maxlength="9"
-	type="text"></div>
+	type="text" value="<?php echo $building->minprice;?>"></div>
 </div>
 <div class="clearfix"><label for="status">Status</label>
-<div class="input"><select class="span2" name="status">
-	<option>Verfuegbar</option>
-	<option>Reserviert</option>
-	<option>Verkauft</option>
+<div class="input"><select class="span2" name="status" >
+	<option <?php if ($building->status == 'Verfuegbar') echo 'selected'?>>Verfuegbar</option>
+	<option <?php if ($building->status == 'Reserviert') echo 'selected'?>>Reserviert</option>
+	<option <?php if ($building->status == 'Verkauft') echo 'selected'?>>Verkauft</option>
 </select></div>
 </div>
 </fieldset>
@@ -103,8 +115,9 @@ sind identisch</span></div>
 </div>
 
 <div class="actions"><input class="btn primary" type="submit"
-	name="save" value="Speichern"/> <input class="btn danger"
-	type="submit" name="delete" value="L&ouml;schen" /></div>
+	name="save" value="Speichern" /> <a class="btn" href="index.php">Abbrechen</a>
+<input class="btn danger" type="submit" id="delete" name="delete"
+	value="L&ouml;schen" /></div>
 
 </form>
 <?php
@@ -115,23 +128,23 @@ R::setup('mysql:host=localhost;dbname=makler','root','');
 
 if (isset($_POST['save'])) {
 
-	$location = R::dispense('location');
+	$location = R::load('location', $building->location_id);
 	$location->forename = $_POST['forename'];
 	$location->name = $_POST['name'];
 	$location->str = $_POST['str'];
 	$location->strnr = $_POST['strnr'];
 	$location->postalcode = $_POST['postalcode'];
 	$location->city = $_POST['city'];
-	
+
 	if (isset($_POST['eqowner'])) {
 		$eqowner = $_POST['eqowner'];
 	} else {
 		$eqowner = 'n';
 	}
-	
+
 	$location->eqowner = $eqowner;
 
-	$owner = R::dispense('owner');
+	$owner = R::load('owner', $building->owner_id);
 	if ($eqowner != 'y') {
 		$owner->forename = $_POST['owner-forename'];
 		$owner->name = $_POST['owner-name'];
@@ -141,7 +154,6 @@ if (isset($_POST['save'])) {
 		$owner->city = $_POST['owner-city'];
 	}
 
-	$building = R::dispense('building');
 	$building->rooms = $_POST['rooms'];
 	$building->floors = $_POST['floors'];
 	$building->qm = $_POST['qm'];
@@ -153,15 +165,15 @@ if (isset($_POST['save'])) {
 
 
 	$id = R::store($building);
-	
+
 	header( "refresh:1;url=details.php?id=".$id );
-	
+
 	$builds = R::find('building');
 	foreach ($builds as $building) {
 		echo('<div class="alert-message success" style="width: 800px"><p>'.$building.'</p></div>');
 	};
-	
-	
+
+
 }
 
 if (isset($_POST['delete'])) {

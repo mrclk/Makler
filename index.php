@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Maklerb&uuml;ro M&ouml;nich</title>
+<title>Maklerb&uuml;ro M&ouml;nich - &Uuml;bersicht</title>
 <link rel="stylesheet"
 	href="styles/bootstrap.min.css">
 <link rel="stylesheet" href="styles/styles.css">
@@ -18,7 +18,7 @@
 
 <form action>
 <div class="clearfix postalsearch"><input class="span2" id
-	name="postalcode" type="text" placeholder="PLZ"></div>
+	name="postalcode" maxlength="5" type="text" placeholder="PLZ"></div>
 <button class="btn small">Suchen</button>
 </form>
 </div>
@@ -26,6 +26,7 @@
 <ol style="width: 750px">
 <?php
 require 'rb.php';
+require 'utils.php';
 
 function desc($building) {
 	return $building->rooms.' Zimmer auf '.$building->floors.' Etagen in '.$building->postalcode;
@@ -36,30 +37,10 @@ R::setup('mysql:host=localhost;dbname=makler','root','');
 $allBuildings = R::find('building');
 
 if ($allBuildings == null) {
-	echo '<p>Es wurden leider keine Objekte gefunden!</p>';
+	echo '<div class="alert-message"><p>Es wurden leider keine Objekte gefunden!</p></div></div>';
 } else {
 
 	foreach ($allBuildings as $build) {
-		switch ($build->status) {
-			case 'Verkauft':
-				$labelClass = 'important';
-				$status = 'verkauft';
-				$details = '<p>Dieses Objekt wurde bereits verkauft.</p>';
-				break;
-			case 'Reserviert':
-				$labelClass = 'warning';
-				$status = 'reserviert';
-				break;
-			case 'Verfuegbar':
-				$labelClass = 'success';
-				$status = 'verf&uumlgbar';
-				break;
-			default:
-				$labelClass = 'default';
-				$status = 'unbekannt';
-				break;
-		}
-
 		$id = $build->id;
 		$detailPage = 'details.php?id='.$id;
 		$details = '<p>Bitte melden Sie Interesse f&uumlr dieses Objekt an, um weitere Details zu sehen.</p>';
@@ -70,7 +51,11 @@ if ($allBuildings == null) {
 		echo '<div class="option-box"><a href="#" class="btn small primary">Interesse</a>
 			  <a href="'.$detailPage.'" class="btn small">Details</a></div>';
 
-		echo '<span class="label '.$labelClass.' status">'.$status.'</span> <br><br>';
+		echo get_status_label($build->status).'<br><br>';
+		
+		if ($build->status == 'Verkauft') {
+			$details = '<p>Dieses Objekt wurde bereits verkauft.</p>';
+		}
 
 		echo '<div class="details-overview"><h5>Weitere Informationen:</h5>'.$details;
 		echo '</div></li>';
