@@ -103,8 +103,7 @@ sind identisch</span></div>
 </div>
 
 <div class="actions"><input class="btn primary" type="submit"
-	name="save" value="Speichern"/> <input class="btn danger"
-	type="submit" name="delete" value="L&ouml;schen" /></div>
+	name="save" value="Speichern"/> <a href="index.php" class="btn">Zur&uuml;ck</a></div>
 
 </form>
 <?php
@@ -162,20 +161,6 @@ if (isset($_POST['save'])) {
 	};
 	
 	
-}
-
-if (isset($_POST['delete'])) {
-	$last = R::findLast('building');
-
-	if ($last != NULL) {
-		R::trash($last);
-	}
-
-
-	$builds = R::find('building');
-	foreach ($builds as $building) {
-		echo('<div class="alert-message success" style="width: 800px"><p>'.$building.'</p></div>');
-	};
 }
 
 

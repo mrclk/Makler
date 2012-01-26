@@ -146,3 +146,8 @@ body {
 .btn#delete {
 	float: right;
 }
+
+a#add {
+	float: right;
+	margin-right: 30px;
+}

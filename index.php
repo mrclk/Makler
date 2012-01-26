@@ -11,16 +11,19 @@
 <div class="container"><img src="img/moenich.gif"></div>
 <div class="content">
 <div class="header">
+<a class="btn success" id="add" href="addbuilding.php">Neues Objekt</a>
 <h1>Unsere Angebote</h1>
 <!-- postal search -->
 
 <h3>Suchen Sie Objekte in Ihrer Umgebung:</h3>
-
 <form action>
+
 <div class="clearfix postalsearch"><input class="span2" id
 	name="postalcode" maxlength="5" type="text" placeholder="PLZ"></div>
 <button class="btn small">Suchen</button>
 </form>
+
+
 </div>
 <!-- list of buildings -->
 <ol style="width: 750px">
@@ -29,7 +32,8 @@ require 'rb.php';
 require 'utils.php';
 
 function desc($building) {
-	return $building->rooms.' Zimmer auf '.$building->floors.' Etagen in '.$building->postalcode;
+	$location = R::load('location', $building->location_id);
+	return $building->rooms.' Zimmer auf '.$building->floors.' Etagen in '.$location->postalcode;
 }
 
 R::setup('mysql:host=localhost;dbname=makler','root','');

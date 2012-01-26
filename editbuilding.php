@@ -5,7 +5,8 @@ R::setup('mysql:host=localhost;dbname=makler','root','');
 if (isset($_GET['id'])) {
 	$building = R::load('building', $_GET['id']);
 	if ($building->id != 0) {
-		
+		$location = R::load('location', $building->location_id);
+		$owner = R::load('owner', $building->owner_id);
 	}
 }
 ?>
@@ -47,7 +48,7 @@ if (isset($_GET['id'])) {
 	type="text" value="<?php echo $building->minprice;?>"></div>
 </div>
 <div class="clearfix"><label for="status">Status</label>
-<div class="input"><select class="span2" name="status" >
+<div class="input"><select class="span2" name="status">
 	<option <?php if ($building->status == 'Verfuegbar') echo 'selected'?>>Verfuegbar</option>
 	<option <?php if ($building->status == 'Reserviert') echo 'selected'?>>Reserviert</option>
 	<option <?php if ($building->status == 'Verkauft') echo 'selected'?>>Verkauft</option>
@@ -58,30 +59,30 @@ if (isset($_GET['id'])) {
 <h3>Ortsangaben</h3>
 <div class="clearfix"><label for="forename">Vorname</label>
 <div class="input"><input class="span3" name="forename" maxlength="40"
-	type="text"></div>
+	type="text" value="<?php echo $location->forename;?>"></div>
 </div>
 <div class="clearfix"><label for="name">Nachname</label>
 <div class="input"><input class="span3" name="name" maxlength="30"
-	type="text"></div>
+	type="text" value="<?php echo $location->name;?>"></div>
 </div>
 <div class="clearfix"><label for="str">Strasse</label>
 <div class="input"><input class="span3" name="str" maxlength="50"
-	type="text"></div>
+	type="text" value="<?php echo $location->str;?>"></div>
 </div>
 <div class="clearfix"><label for="strnr">Hausnummer</label>
 <div class="input"><input class="span2" name="strnr" maxlength="4"
-	type="text"></div>
+	type="text" value="<?php echo $location->strnr;?>"></div>
 </div>
 <div class="clearfix"><label for="postalcode">PLZ</label>
 <div class="input"><input class="span2" name="postalcode" maxlength="5"
-	type="text"></div>
+	type="text" value="<?php echo $location->postalcode;?>"></div>
 </div>
 <div class="clearfix"><label for="city">Stadt</label>
 <div class="input"><input class="span3" name="city" maxlength="30"
-	type="text"></div>
+	type="text" value="<?php echo $location->city;?>"></div>
 </div>
 <div class="clearfix"><label for="eqowner">Besitzer</label>
-<div class="input"><input type="checkbox" name="eqowner" value="y"> <span>Besitzerangaben
+<div class="input"><input type="checkbox" name="eqowner" value="y" value="<?php if ($location->eqowner == 'y') echo 'checked'?>"> <span>Besitzerangaben
 sind identisch</span></div>
 </div>
 </fieldset>
@@ -116,8 +117,7 @@ sind identisch</span></div>
 
 <div class="actions"><input class="btn primary" type="submit"
 	name="save" value="Speichern" /> <a class="btn" href="index.php">Abbrechen</a>
-<input class="btn danger" type="submit" id="delete" name="delete"
-	value="L&ouml;schen" /></div>
+</div>
 
 </form>
 <?php
