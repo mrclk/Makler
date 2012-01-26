@@ -6,6 +6,7 @@ body {
 
 .content {
 	width: 70%;
+	height: 100%;
 	margin-top: 100px;
 	margin: auto;
 	padding-top: 25px;
@@ -20,6 +21,7 @@ body {
 	-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
 	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
 	padding-top: 25px;
+	margin-top: 100px;
 }
 
 .header {
@@ -32,11 +34,16 @@ body {
 	margin: 1px 10px 0px 0px;
 }
 
-.img {
+.img-thumb {
 	width: 120px;
 	height: 100px;
 	float: left;
 	margin: 5px;
+}
+
+.img-big {
+	float: left;
+	border: 5px solid #DDD;
 }
 
 .li-item {
@@ -84,7 +91,34 @@ body {
 	font-size: 1.5em;
 }
 
+.detail-box {
+	margin-left: 25px;
+	height: 270px;
+}
+
+.left-dotted {
+	border-left: 1px;
+	border-left-style: dashed;
+	border-color: #DDD;
+}
+
+.detail-item {
+	height: 180px;
+	padding-left: 20px;
+	padding-right: 15px;
+	margin-left: 20px;
+	float: left;
+}
+
 .details {
 	float: left;
-	margin-left: 5px
+}
+
+.actions {
+	padding: 17px 20px 18px 25px;
+}
+
+.details-overview {
+	float: left;
+	margin-left: 5px;
 }

@@ -2,9 +2,9 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Maklerb&uumlro M&oumlnich</title>
+<title>Maklerb&uuml;ro M&ouml;nich</title>
 <link rel="stylesheet"
-	href="http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css">
+	href="styles/bootstrap.min.css">
 <link rel="stylesheet" href="styles/styles.css">
 </head>
 <body>
@@ -59,21 +59,20 @@ if ($allBuildings == null) {
 				$status = 'unbekannt';
 				break;
 		}
-		
+
 		$id = $build->id;
 		$detailPage = 'details.php?id='.$id;
 		$details = '<p>Bitte melden Sie Interesse f&uumlr dieses Objekt an, um weitere Details zu sehen.</p>';
 
 		echo '<li class="li-item">';
-		echo '<div class="img"><a href="'.$detailPage.'"><img class="thumbnail"
-			  src="img/120x100.gif"> </a></div>';
-		echo '<div class="desc"><a href="#">'.desc($build).'</a></div>';
+		echo '<a href="'.$detailPage.'"><img alt="building-thumb" class="img-thumb" src="img/120x100.gif" width="120" height="100"></a>';
+		echo '<div class="desc"><a href="'.$detailPage.'">'.desc($build).'</a></div>';
 		echo '<div class="option-box"><a href="#" class="btn small primary">Interesse</a>
-			  <a href="#" class="btn small">Details</a></div>';
+			  <a href="'.$detailPage.'" class="btn small">Details</a></div>';
 
 		echo '<span class="label '.$labelClass.' status">'.$status.'</span> <br><br>';
 
-		echo '<div class="details"><h5>Weitere Informationen:</h5>'.$details;
+		echo '<div class="details-overview"><h5>Weitere Informationen:</h5>'.$details;
 		echo '</div></li>';
 
 	}
@@ -83,24 +82,8 @@ if ($allBuildings == null) {
 }
 ?>
 </ol>
-
+<img alt="" src="">
 </div>
+
 </body>
 </html>
-
-
-
-
-
-
-
-<!-- <?php
-function highlight($sString) {
-
-	echo("Hallo Welt");;
-}
-?>
-
-<b>Soooo: <?php highlight(".");?></b> -->
-
-
