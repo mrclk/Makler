@@ -34,6 +34,10 @@ body {
 	margin: 1px 10px 0px 0px;
 }
 
+ol#building-list {
+	width: 750px;
+}
+
 .img-thumb {
 	width: 120px;
 	height: 100px;
@@ -106,9 +110,10 @@ body {
 
 .detail-item {
 	height: 180px;
-	padding-left: 20px;
+	padding-left: 10px;
 	padding-right: 15px;
-	margin-left: 20px;
+	margin-left: 5px;
+	margin-bottom: 15px;
 	float: left;
 }
 
@@ -117,7 +122,7 @@ body {
 }
 
 .fields {
-	height: 450px;
+	height: 480px;
 	padding-left: 30px;
 	padding-right: 30px;
 }

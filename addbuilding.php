@@ -1,3 +1,56 @@
+<?php
+
+require 'include.php';
+
+R::setup('mysql:host=localhost;dbname=makler','root','');
+
+if (isset($_POST['save'])) {
+
+	$location = R::dispense('location');
+	$location->forename = $_POST['forename'];
+	$location->name = $_POST['name'];
+	$location->str = $_POST['str'];
+	$location->strnr = $_POST['strnr'];
+	$location->postalcode = $_POST['postalcode'];
+	$location->city = $_POST['city'];
+	$location->phone = $_POST['phone'];
+
+	if (isset($_POST['eqowner'])) {
+		$eqowner = $_POST['eqowner'];
+	} else {
+		$eqowner = 'n';
+	}
+
+	$location->eqowner = $eqowner;
+
+	$owner = R::dispense('owner');
+	if ($eqowner != 'y') {
+		$owner->forename = $_POST['owner-forename'];
+		$owner->name = $_POST['owner-name'];
+		$owner->str = $_POST['owner-str'];
+		$owner->strnr = $_POST['owner-strnr'];
+		$owner->postalcode = $_POST['owner-postalcode'];
+		$owner->city = $_POST['owner-city'];
+		$owner->phone = $_POST['owner-phone'];
+	}
+
+	$building = R::dispense('building');
+	$building->rooms = $_POST['rooms'];
+	$building->floors = $_POST['floors'];
+	$building->qm = $_POST['qm'];
+	$building->price = $_POST['price'];
+	$building->minprice = $_POST['minprice'];
+	$building->status = $_POST['status'];
+	$building->location = $location;
+	$building->owner = $owner;
+
+
+	$id = R::store($building);
+
+	header( "refresh:1;url=details.php?id=".$id );
+
+}
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,6 +59,19 @@
 <link rel="stylesheet"
 	href="http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css">
 <link rel="stylesheet" href="styles/styles.css">
+
+<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+<script type="text/javascript">                
+$(document).ready(function () {$(":checkbox").click(function() {
+  alert("Handler for .click() called.");
+
+  
+});});
+
+
+
+		                  
+ </script>
 </head>
 <body>
 <div class="content">
@@ -68,12 +134,16 @@
 <div class="input"><input class="span3" name="city" maxlength="30"
 	type="text"></div>
 </div>
+<div class="clearfix"><label for="phone">Telefon</label>
+<div class="input"><input class="span3" name="phone" maxlength="30"
+	type="text"></div>
+</div>
 <div class="clearfix"><label for="eqowner">Besitzer</label>
-<div class="input"><input type="checkbox" name="eqowner" value="y"> <span>Besitzerangaben
-sind identisch</span></div>
+<div class="input"><input type="checkbox" id="eqowner" name="eqowner"
+	value="y"> <span>Besitzerangaben sind identisch</span></div>
 </div>
 </fieldset>
-<fieldset class="fields fleft left-dashed">
+<fieldset id="owner" class="fields fleft left-dashed">
 <h3>Besitzerangaben</h3>
 <div class="clearfix"><label for="owner-forename">Vorname</label>
 <div class="input"><input class="span3" name="owner-forename"
@@ -99,73 +169,23 @@ sind identisch</span></div>
 <div class="input"><input class="span3" name="owner-city" maxlength="30"
 	type="text"></div>
 </div>
+<div class="clearfix"><label for="owner-phone">Telefon</label>
+<div class="input"><input class="span3" name="owner-phone"
+	maxlength="30" type="text"></div>
+</div>
 </fieldset>
 </div>
 
 <div class="actions"><input class="btn primary" type="submit"
-	name="save" value="Speichern"/> <a href="index.php" class="btn">Zur&uuml;ck</a></div>
+	name="save" value="Speichern" /> <a href="index.php" class="btn">Zur&uuml;ck</a></div>
 
 </form>
 <?php
-
-require_once 'rb.php';
-
-R::setup('mysql:host=localhost;dbname=makler','root','');
-
 if (isset($_POST['save'])) {
-
-	$location = R::dispense('location');
-	$location->forename = $_POST['forename'];
-	$location->name = $_POST['name'];
-	$location->str = $_POST['str'];
-	$location->strnr = $_POST['strnr'];
-	$location->postalcode = $_POST['postalcode'];
-	$location->city = $_POST['city'];
-	
-	if (isset($_POST['eqowner'])) {
-		$eqowner = $_POST['eqowner'];
-	} else {
-		$eqowner = 'n';
-	}
-	
-	$location->eqowner = $eqowner;
-
-	$owner = R::dispense('owner');
-	if ($eqowner != 'y') {
-		$owner->forename = $_POST['owner-forename'];
-		$owner->name = $_POST['owner-name'];
-		$owner->str = $_POST['owner-str'];
-		$owner->strnr = $_POST['owner-strnr'];
-		$owner->postalcode = $_POST['owner-postalcode'];
-		$owner->city = $_POST['owner-city'];
-	}
-
-	$building = R::dispense('building');
-	$building->rooms = $_POST['rooms'];
-	$building->floors = $_POST['floors'];
-	$building->qm = $_POST['qm'];
-	$building->price = $_POST['price'];
-	$building->minprice = $_POST['minprice'];
-	$building->status = $_POST['status'];
-	$building->location = $location;
-	$building->owner = $owner;
-
-
-	$id = R::store($building);
-	
-	header( "refresh:1;url=details.php?id=".$id );
-	
 	$builds = R::find('building');
 	foreach ($builds as $building) {
 		echo('<div class="alert-message success" style="width: 800px"><p>'.$building.'</p></div>');
-	};
-	
-	
-}
+	}};?></div>
 
-
-?></div>
-
-</div>
 </body>
 </html>

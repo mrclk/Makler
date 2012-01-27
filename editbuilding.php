@@ -1,5 +1,5 @@
 <?php
-require_once 'rb.php';
+require 'include.php';
 R::setup('mysql:host=localhost;dbname=makler','root','');
 
 if (isset($_GET['id'])) {
@@ -9,9 +9,54 @@ if (isset($_GET['id'])) {
 		$owner = R::load('owner', $building->owner_id);
 	}
 }
-?>
-<!DOCTYPE html>
 
+if (isset($_POST['save'])) {
+
+	$location = R::load('location', $building->location_id);
+	$location->forename = $_POST['forename'];
+	$location->name = $_POST['name'];
+	$location->str = $_POST['str'];
+	$location->strnr = $_POST['strnr'];
+	$location->postalcode = $_POST['postalcode'];
+	$location->city = $_POST['city'];
+	$location->phone = $_POST['phone'];
+
+	if (isset($_POST['eqowner'])) {
+		$eqowner = $_POST['eqowner'];
+	} else {
+		$eqowner = 'n';
+	}
+
+	$location->eqowner = $eqowner;
+
+	$owner = R::load('owner', $building->owner_id);
+	if ($eqowner != 'y') {
+		$owner->forename = $_POST['owner-forename'];
+		$owner->name = $_POST['owner-name'];
+		$owner->str = $_POST['owner-str'];
+		$owner->strnr = $_POST['owner-strnr'];
+		$owner->postalcode = $_POST['owner-postalcode'];
+		$owner->city = $_POST['owner-city'];
+		$owner->phone = $_POST['owner-phone'];
+	}
+
+	$building->rooms = $_POST['rooms'];
+	$building->floors = $_POST['floors'];
+	$building->qm = $_POST['qm'];
+	$building->price = $_POST['price'];
+	$building->minprice = $_POST['minprice'];
+	$building->status = $_POST['status'];
+	$building->location = $location;
+	$building->owner = $owner;
+
+
+	$id = R::store($building);
+
+	header( "refresh:1;url=details.php?id=".$id );
+}
+	?>
+
+<!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
@@ -81,8 +126,13 @@ if (isset($_GET['id'])) {
 <div class="input"><input class="span3" name="city" maxlength="30"
 	type="text" value="<?php echo $location->city;?>"></div>
 </div>
+<div class="clearfix"><label for="phone">Telefon</label>
+<div class="input"><input class="span3" name="phone" maxlength="30"
+	type="text" value="<?php echo $location->phone?>"></div>
+</div>
 <div class="clearfix"><label for="eqowner">Besitzer</label>
-<div class="input"><input type="checkbox" name="eqowner" value="y" value="<?php if ($location->eqowner == 'y') echo 'checked'?>"> <span>Besitzerangaben
+<div class="input"><input type="checkbox" name="eqowner" value="y"
+	value="<?php if ($location->eqowner == 'y') echo 'checked'?>"> <span>Besitzerangaben
 sind identisch</span></div>
 </div>
 </fieldset>
@@ -90,27 +140,31 @@ sind identisch</span></div>
 <h3>Besitzerangaben</h3>
 <div class="clearfix"><label for="owner-forename">Vorname</label>
 <div class="input"><input class="span3" name="owner-forename"
-	maxlength="40" type="text"></div>
+	maxlength="40" type="text" value="<?php echo $owner->forename;?>"></div>
 </div>
 <div class="clearfix"><label for="owner-name">Nachname</label>
 <div class="input"><input class="span3" name="owner-name" maxlength="30"
-	type="text"></div>
+	type="text" value="<?php echo $owner->name;?>"></div>
 </div>
 <div class="clearfix"><label for="owner-str">Strasse</label>
 <div class="input"><input class="span3" name="owner-str" maxlength="50"
-	type="text"></div>
+	type="text" value="<?php echo $owner->str;?>"></div>
 </div>
 <div class="clearfix"><label for="owner-strnr">Hausnummer</label>
 <div class="input"><input class="span2" name="owner-strnr" maxlength="4"
-	type="text"></div>
+	type="text" value="<?php echo $owner->strnr;?>"></div>
 </div>
 <div class="clearfix"><label for="owner-postalcode">PLZ</label>
 <div class="input"><input class="span2" name="owner-postalcode"
-	maxlength="5" type="text"></div>
+	maxlength="5" type="text" value="<?php echo $owner->postalcode;?>"></div>
 </div>
 <div class="clearfix"><label for="owner-city">Stadt</label>
 <div class="input"><input class="span3" name="owner-city" maxlength="30"
-	type="text"></div>
+	type="text" value="<?php echo $owner->city;?>"></div>
+</div>
+<div class="clearfix"><label for="owner-phone">Telefon</label>
+<div class="input"><input class="span3" name="owner-phone" maxlength="30"
+	type="text" value="<?php echo $owner->phone?>"></div>
 </div>
 </fieldset>
 </div>
@@ -120,79 +174,15 @@ sind identisch</span></div>
 </div>
 
 </form>
-<?php
 
-require_once 'rb.php';
-
-R::setup('mysql:host=localhost;dbname=makler','root','');
-
+<?php 
 if (isset($_POST['save'])) {
-
-	$location = R::load('location', $building->location_id);
-	$location->forename = $_POST['forename'];
-	$location->name = $_POST['name'];
-	$location->str = $_POST['str'];
-	$location->strnr = $_POST['strnr'];
-	$location->postalcode = $_POST['postalcode'];
-	$location->city = $_POST['city'];
-
-	if (isset($_POST['eqowner'])) {
-		$eqowner = $_POST['eqowner'];
-	} else {
-		$eqowner = 'n';
-	}
-
-	$location->eqowner = $eqowner;
-
-	$owner = R::load('owner', $building->owner_id);
-	if ($eqowner != 'y') {
-		$owner->forename = $_POST['owner-forename'];
-		$owner->name = $_POST['owner-name'];
-		$owner->str = $_POST['owner-str'];
-		$owner->strnr = $_POST['owner-strnr'];
-		$owner->postalcode = $_POST['owner-postalcode'];
-		$owner->city = $_POST['owner-city'];
-	}
-
-	$building->rooms = $_POST['rooms'];
-	$building->floors = $_POST['floors'];
-	$building->qm = $_POST['qm'];
-	$building->price = $_POST['price'];
-	$building->minprice = $_POST['minprice'];
-	$building->status = $_POST['status'];
-	$building->location = $location;
-	$building->owner = $owner;
-
-
-	$id = R::store($building);
-
-	header( "refresh:1;url=details.php?id=".$id );
-
-	$builds = R::find('building');
-	foreach ($builds as $building) {
-		echo('<div class="alert-message success" style="width: 800px"><p>'.$building.'</p></div>');
-	};
-
-
-}
-
-if (isset($_POST['delete'])) {
-	$last = R::findLast('building');
-
-	if ($last != NULL) {
-		R::trash($last);
-	}
-
-
 	$builds = R::find('building');
 	foreach ($builds as $building) {
 		echo('<div class="alert-message success" style="width: 800px"><p>'.$building.'</p></div>');
 	};
 }
-
-
-?></div>
-
+?>
 </div>
 </body>
 </html>

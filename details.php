@@ -6,13 +6,12 @@
 <link rel="stylesheet" href="styles/bootstrap.min.css">
 <link rel="stylesheet" href="styles/styles.css">
 </head>
-
 <body>
 <div class="container"><img src="img/moenich.gif"></div>
 <div class="content">
-<div class="header"><?php 
-require_once 'rb.php';
-require 'utils.php';
+<div class="header">
+<?php 
+require 'include.php';
 R::setup('mysql:host=localhost;dbname=makler','root','');
 
 if (isset($_GET['id'])) {
@@ -33,7 +32,8 @@ if (isset($_GET['id'])) {
 					<p><strong>Zimmer:</strong> '.$building->rooms.'</p>
 					<p><strong>Ebenen:</strong> '.$building->floors.'</p>
 					<p><strong>Fl&auml;che:</strong> '.$building->qm.' m&sup2;</p>
-					<p><strong>Preis:</strong> '.$building->price.' &euro;</p>
+					<p><strong>Preis:</strong> '.money($building->price).' &euro;</p>
+					<p><strong>Min. Preis:</strong> '.money($building->minprice).' &euro;</p>
 					<p><strong>Status:</strong> '.get_status_label($building->status).'</p>';
 			
 		echo '</div></div>';
@@ -45,7 +45,7 @@ if (isset($_GET['id'])) {
 				<p>'.$location->forename.' '.$location->name.'</p>
 				<p>'.$location->str.' '.$location->strnr.'</p>
 				<p>'.$location->postalcode.' '.$location->city.'</p>
-				<abbr title="Telefon">Tel:</abbr> (0231) 456-7890</address>
+				<abbr title="Telefon">Tel:</abbr> '.$location->phone.'</address>
 			</div>
 			<div class="detail-item left-dashed">
 				<h5>Besitzer/in</h5>
@@ -53,7 +53,7 @@ if (isset($_GET['id'])) {
 				<p>'.$owner->forename.' '.$owner->name.'</p>
 				<p>'.$owner->str.' '.$owner->strnr.'</p>
 				<p>'.$owner->postalcode.' '.$owner->city.'</p>
-				<abbr title="Telefon">Tel:</abbr> (0231) 456-7890</address>
+				<abbr title="Telefon">Tel:</abbr> '.$owner->phone.'</address>
 			</div>';
 
 		echo '</div>';
@@ -79,12 +79,8 @@ if (isset($_POST['delete'])) {
 	R::trash($location);
 	R::trash($owner);
 
-	header( "url=index.php" );
+	header( "refresh:0;url=index.php" );
 
-	$builds = R::find('building');
-	foreach ($builds as $building) {
-		echo('<div class="alert-message success" style="width: 800px"><p>'.$building.'</p></div>');
-	};
 }
 
 function echoAlert() {
@@ -92,7 +88,7 @@ function echoAlert() {
         <p><strong>Ups!</strong> Es wurde kein Eintrag gefunden. <a href="index.php">Hier geht es zur&uuml;ck zur Startseite.</a>.</p>
       </div></div>';
 }
-?></div>
-
+?>
+</div>
 </body>
 </html>

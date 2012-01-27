@@ -1,17 +1,27 @@
+<?php
+require 'include.php';
+
+function desc($building) {
+	$location = R::load('location', $building->location_id);
+	return $building->rooms.' Zimmer auf '.$building->floors.' Etagen in '.$location->postalcode;
+}
+
+R::setup('mysql:host=localhost;dbname=makler','root','');
+
+$allBuildings = R::find('building');?>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
 <title>Maklerb&uuml;ro M&ouml;nich - &Uuml;bersicht</title>
-<link rel="stylesheet"
-	href="styles/bootstrap.min.css">
+<link rel="stylesheet" href="styles/bootstrap.min.css">
 <link rel="stylesheet" href="styles/styles.css">
 </head>
 <body>
 <div class="container"><img src="img/moenich.gif"></div>
 <div class="content">
-<div class="header">
-<a class="btn success" id="add" href="addbuilding.php">Neues Objekt</a>
+<div class="header"><a class="btn success" id="add"
+	href="addbuilding.php">Neues Objekt</a>
 <h1>Unsere Angebote</h1>
 <!-- postal search -->
 
@@ -26,20 +36,8 @@
 
 </div>
 <!-- list of buildings -->
-<ol style="width: 750px">
+<ol id="building-list">
 <?php
-require 'rb.php';
-require 'utils.php';
-
-function desc($building) {
-	$location = R::load('location', $building->location_id);
-	return $building->rooms.' Zimmer auf '.$building->floors.' Etagen in '.$location->postalcode;
-}
-
-R::setup('mysql:host=localhost;dbname=makler','root','');
-
-$allBuildings = R::find('building');
-
 if ($allBuildings == null) {
 	echo '<div class="alert-message"><p>Es wurden leider keine Objekte gefunden!</p></div></div>';
 } else {
@@ -56,22 +54,17 @@ if ($allBuildings == null) {
 			  <a href="'.$detailPage.'" class="btn small">Details</a></div>';
 
 		echo get_status_label($build->status).'<br><br>';
-		
+
 		if ($build->status == 'Verkauft') {
 			$details = '<p>Dieses Objekt wurde bereits verkauft.</p>';
 		}
 
 		echo '<div class="details-overview"><h5>Weitere Informationen:</h5>'.$details;
 		echo '</div></li>';
-
 	}
-
-
-
 }
 ?>
 </ol>
-<img alt="" src="">
 </div>
 
 </body>
