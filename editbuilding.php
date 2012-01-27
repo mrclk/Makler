@@ -66,6 +66,7 @@ if (isset($_POST['save'])) {
 <link rel="stylesheet" href="styles/styles.css">
 </head>
 <body>
+<img src="img/logo.png">
 <div class="content">
 <h1>Objekt bearbeiten <small>#<?php echo $building->id;?></small></h1>
 <form action="" class="form-stacked" method="post">

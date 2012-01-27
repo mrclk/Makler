@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="styles/styles.css">
 </head>
 <body>
-<div class="container"><img src="img/moenich.gif"></div>
+<img src="img/logo.png">
 <div class="content">
 <div class="header">
 <?php 
@@ -24,7 +24,7 @@ if (isset($_GET['id'])) {
 			
 		echo '<div class="detail-box">
 					<img class="img-big" alt="building"
-					src="img/300x250.gif" width="300" height="250" />
+					src="http://innenarchi.org/dekoration/wp-content/uploads/2011/06/haus1.jpg" width="300" height="250" />
 					<div class="details">
 					<div class="detail-item">';
 			
