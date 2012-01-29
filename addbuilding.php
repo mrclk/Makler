@@ -2,7 +2,7 @@
 
 require 'include.php';
 
-R::setup('mysql:host=localhost;dbname=makler','root','');
+setup_db();
 
 if (isset($_POST['save'])) {
 

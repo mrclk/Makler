@@ -1,7 +1,8 @@
 <?php
 require 'include.php';
 
-R::setup('mysql:host=localhost;dbname=makler','root','');
+setup_db();
+
 if (isset($_GET['postalcode'])) {
 	$locations = R::find('location',' postalcode LIKE :postalcode 
                                   ORDER BY :postalcode', 

@@ -12,7 +12,8 @@
 <div class="header">
 <?php 
 require 'include.php';
-R::setup('mysql:host=localhost;dbname=makler','root','');
+
+setup_db();
 
 if (isset($_GET['id'])) {
 	$building = R::load('building', $_GET['id']);
