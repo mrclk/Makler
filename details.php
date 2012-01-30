@@ -3,8 +3,7 @@
 <head>
 <meta charset="utf-8">
 <title>Maklerb&uuml;ro M&ouml;nich - Details</title>
-<link rel="stylesheet" href="styles/bootstrap.min.css">
-<link rel="stylesheet" href="styles/styles.css">
+<?php include_once 'head.php';?>
 </head>
 <body>
 <img src="img/logo.png">

@@ -56,12 +56,7 @@ if (isset($_POST['save'])) {
 <head>
 <meta charset="utf-8">
 <title>Maklerb&uuml;ro M&ouml;nich</title>
-<link rel="stylesheet"
-	href="http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css">
-<link rel="stylesheet" href="styles/styles.css">
-
-<script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
-<script type="text/javascript" src="js/animations.js"></script>
+<?php include_once 'head.php';?>
 </head>
 <body>
 <img src="img/logo.png">

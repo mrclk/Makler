@@ -37,7 +37,6 @@ body {
 ol#building-list {
 	width: 850px;
 	list-style: none;
-	
 }
 
 .img-thumb {
@@ -53,11 +52,12 @@ ol#building-list {
 }
 
 .li-item {
-	background-color: white;
+	width: 750px; background-color : white;
 	border: 1px solid #DDD;
 	height: 110px;
 	margin-bottom: 5px;
 	border: 1px solid #DDD;
+	background-color: white;
 }
 
 .li-item:hover {

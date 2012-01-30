@@ -62,9 +62,7 @@ if (isset($_POST['save'])) {
 <head>
 <meta charset="utf-8">
 <title>Maklerb&uuml;ro M&ouml;nich</title>
-<link rel="stylesheet"
-	href="http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css">
-<link rel="stylesheet" href="styles/styles.css">
+<?php include_once 'head.php';?>
 </head>
 <body>
 <img src="img/logo.png">
@@ -133,12 +131,12 @@ if (isset($_POST['save'])) {
 	type="text" value="<?php echo $location->phone?>"></div>
 </div>
 <div class="clearfix"><label for="eqowner">Besitzer</label>
-<div class="input"><input type="checkbox" name="eqowner" value="y"
-	value="<?php if ($location->eqowner == 'y') echo 'checked'?>"> <span>Besitzerangaben
+<div class="input"><input type="checkbox" id="eqowner" name="eqowner" value="y"
+	<?php if ($location->eqowner == 'y') echo 'checked'?>> <span>Besitzerangaben
 sind identisch</span></div>
 </div>
 </fieldset>
-<fieldset class="fields fleft left-dashed">
+<fieldset id="owner" class="fields fleft left-dashed">
 <h3>Besitzerangaben</h3>
 <div class="clearfix"><label for="owner-forename">Vorname</label>
 <div class="input"><input class="span3" name="owner-forename"

@@ -4,20 +4,20 @@ require 'include.php';
 setup_db();
 
 if (isset($_GET['postalcode'])) {
-	$locations = R::find('location',' postalcode LIKE :postalcode 
+	$locations = R::find('location',' postalcode LIKE :postalcode
                                   ORDER BY :postalcode', 
-    array( ':postalcode'=>substr($_GET['postalcode'], 0, 2).'%'));
-    
-    $allBuildings = array();
-    foreach ($locations as $value) {
-    	array_push($allBuildings, R::findOne('building', 'location_id ='.$value->id));
-    }
+	array( ':postalcode'=>substr($_GET['postalcode'], 0, 2).'%'));
+
+	$allBuildings = array();
+	foreach ($locations as $value) {
+		array_push($allBuildings, R::findOne('building', 'location_id ='.$value->id));
+	}
 } else {
 	// get all buildings in db
 	$allBuildings = R::find('building');
 }
 
-function desc($building) {
+function description($building) {
 	$location = R::load('location', $building->location_id);
 	return $building->rooms.' Zimmer auf '.$building->floors.' Etagen in '.$location->postalcode.', '.$location->city;
 }
@@ -34,8 +34,7 @@ function details($building) {
 <head>
 <meta charset="utf-8">
 <title>Maklerb&uuml;ro M&ouml;nich - &Uuml;bersicht</title>
-<link rel="stylesheet" href="styles/bootstrap.min.css">
-<link rel="stylesheet" href="styles/styles.css">
+<?php include_once 'head.php';?>
 </head>
 <body>
 <img src="img/logo.png">
@@ -59,31 +58,31 @@ function details($building) {
 <ol id="building-list">
 <?php
 if ($allBuildings == null) {
-	echo '<div class="alert-message"><p>Es wurden leider keine Objekte gefunden!</p></div></div>';
-} else {
+	?>
+	<div class="alert-message">
+	<p>Es wurden leider keine Objekte gefunden!</p>
+	</div>
 
-	foreach ($allBuildings as $building) {
+</div>
+	<?php } else {
+
+		foreach ($allBuildings as $building) :
 		$id = $building->id;
-		$detailPage = 'details.php?id='.$id;
-		$details = '<p>Bitte melden Sie Interesse f&uumlr dieses Objekt an, um weitere Details zu sehen.</p>';
 
-		echo '<li class="li-item">';
-		echo '<a href="'.$detailPage.'"><img alt="building-thumb" class="img-thumb" src="img/120x100.gif" width="120" height="100"></a>';
-		echo '<div class="desc"><a href="'.$detailPage.'">'.desc($building).'</a></div>';
-		echo '<div class="option-box"><a href="#" class="btn small primary">Interesse</a>
-			  <a href="'.$detailPage.'" class="btn small">Details</a></div>';
-
-		echo get_status_label($building->status).'<br><br>';
-
-		if ($building->status == 'Verkauft') {
-			$details = '<p>Dieses Objekt wurde bereits verkauft.</p>';
-		}
-
-		echo '<div class="details-overview"><h5>Weitere Informationen:</h5>'.details($building);
-		echo '</div></li>';
-	}
-}
-?>
+		?>
+<li class="li-item"><a href="details.php?id=<?php echo $id;?>"><img
+	alt="building-thumb" class="img-thumb" src="img/120x100.gif"
+	width="120" height="100"></a>
+<div class="desc"><a href="details.php?id=<?php echo $id?>"><?php echo description($building);?></a></div>
+<div class="option-box"><a href="#" class="btn small primary">Interesse</a>
+<a href="details.php?id=<?php echo $id;?>" class="btn small">Details</a></div>
+		<?php echo get_status_label($building->status);?><br>
+<br>
+<div class="details-overview">
+<h5>Weitere Informationen:</h5>
+		<?php echo details($building);?></div>
+</li>
+		<?php endforeach; }?>
 </ol>
 </div>
 
