@@ -19,7 +19,7 @@ if (isset($_GET['postalcode'])) {
 
 function desc($building) {
 	$location = R::load('location', $building->location_id);
-	return $building->rooms.' Zimmer auf '.$building->floors.' Etagen in '.$location->postalcode;
+	return $building->rooms.' Zimmer auf '.$building->floors.' Etagen in '.$location->postalcode.', '.$location->city;
 }
 
 function details($building) {
@@ -68,7 +68,7 @@ if ($allBuildings == null) {
 		$details = '<p>Bitte melden Sie Interesse f&uumlr dieses Objekt an, um weitere Details zu sehen.</p>';
 
 		echo '<li class="li-item">';
-		echo '<a href="'.$detailPage.'"><img alt="building-thumb" class="img-thumb" src="http://innenarchi.org/dekoration/wp-content/uploads/2011/06/haus1.jpg" width="120" height="100"></a>';
+		echo '<a href="'.$detailPage.'"><img alt="building-thumb" class="img-thumb" src="img/120x100.gif" width="120" height="100"></a>';
 		echo '<div class="desc"><a href="'.$detailPage.'">'.desc($building).'</a></div>';
 		echo '<div class="option-box"><a href="#" class="btn small primary">Interesse</a>
 			  <a href="'.$detailPage.'" class="btn small">Details</a></div>';

@@ -25,7 +25,7 @@ if (isset($_GET['id'])) {
 			
 		echo '<div class="detail-box">
 					<img class="img-big" alt="building"
-					src="http://innenarchi.org/dekoration/wp-content/uploads/2011/06/haus1.jpg" width="300" height="250" />
+					src="img/300x250.gif" width="300" height="250" />
 					<div class="details">
 					<div class="detail-item">';
 			

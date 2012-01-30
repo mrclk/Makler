@@ -35,7 +35,9 @@ body {
 }
 
 ol#building-list {
-	width: 750px;
+	width: 850px;
+	list-style: none;
+	
 }
 
 .img-thumb {
